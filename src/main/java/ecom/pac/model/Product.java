@@ -1,4 +1,4 @@
-package ecom.pac.models;
+package ecom.pac.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
