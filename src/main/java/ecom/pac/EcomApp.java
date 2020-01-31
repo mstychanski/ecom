@@ -15,10 +15,10 @@ import java.io.InputStream;
 import java.util.List;
 
 @SpringBootApplication
-public class EcomApplication {
+public class EcomApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EcomApplication.class, args);
+		SpringApplication.run(EcomApp.class, args);
 	}
 
 	@Bean
