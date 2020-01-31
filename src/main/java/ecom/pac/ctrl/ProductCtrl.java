@@ -1,30 +1,44 @@
 package ecom.pac.ctrl;
 
-import ecom.pac.dao.ProductDao;
 import ecom.pac.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ecom.pac.service.ProductService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/products")
 public class ProductCtrl {
 
-    @Autowired
-    private ProductDao dataAccessObject;
+    private ProductService productService;
 
-    @PostMapping("/addProduct")
-    public String addProduct(Product product) {
-        dataAccessObject.save(product);
+    public ProductCtrl(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @PostMapping()
+    @ResponseBody
+    public String addProduct(@RequestBody Product product) {
+        productService.save(product);
+
         return "Added product: " + product.toString();
     }
 
-    @GetMapping("/")
-    public List<Product> getAllProducts() {
-        return (List<Product>) dataAccessObject.findAll();
+    @GetMapping()
+    @ResponseBody
+    public Iterable<Product> list(@RequestParam(required = false) String category) {
+
+        Iterable<Product> products;
+
+        if (category != null) {
+            products = () -> StreamSupport.stream(productService.list().spliterator(), false)
+                    .filter(product -> product.getCategory().equals(category))
+                    .iterator();
+        }
+        else {
+            products = productService.list();
+        }
+
+        return products;
     }
 }

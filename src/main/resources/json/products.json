@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "name": "tv",
+      "category": "rtv",
+      "price": 9.4
+    },
+    {
+      "name": "pralka",
+      "category": "agd",
+      "price": 9.1
+    }
+  ]
+}
